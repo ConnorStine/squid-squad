@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="gameArea" content="width=device-width, initial-scale=1.0"/>
+<style>
+canvas {
+	border: 5px solid #151515;
+	background-color: #FAFAFA;
+}
+</style>
+</head>
+<body onload="start()">
+<script>
+
+var squid;
+
+function start() {
+	gameArea.start();
+	squid = new piece(20, 20, "blue", 500, 150);
+}
+
+var gameArea = {
+	canvas : document.createElement("canvas"),
+	start : function() {
+		this.canvas.width = 1000;
+		this.canvas.height = 600;
+		this.context = this.canvas.getContext("2d");
+		document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+		this.interval = setInterval(updateGame, 20);
+		window.addEventListener('keydown', function (e) {
+			gameArea.keys = (gameArea.keys || []);
+			gameArea.keys[e.keyCode] = (e.type == "keydown");
+		})
+		window.addEventListener('keyup', function (e) {
+			gameArea.keys[e.keyCode] = (e.type == "keydown");
+		})
+	},
+	clear : function() {
+		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	}
+}
+
+function piece(width, height, color, x, y) {
+	this.width = width;
+	this.height = height;
+	this.x = x;
+	this.y = y;
+	this.update = function() {
+		ctx = gameArea.context;
+		ctx.fillStyle = color;
+		ctx.fillRect(this.x, this.y, this.width, this.height);
+	}
+	this.newPos = function() {
+		this.x += this.speedX;
+		this.y += this.speedY;
+	}
+}
+
+function updateGame() {
+	gameArea.clear();
+	squid.speedX = 0;
+	squid.speedY = 0;
+	if(gameArea.keys && gameArea.keys[37]) {
+		if(squid.x - squid.speedX > 0) {squid.speedX = -1; } }
+	if(gameArea.keys && gameArea.keys[39]) {
+		if(squid.x + squid.speedX < (gameArea.canvas.width - 20)) {squid.speedX = 1; } }
+	if(gameArea.keys && gameArea.keys[38]) {
+		if(squid.y - squid.speedY > 0) {squid.speedY = -1; } }
+	if(gameArea.keys && gameArea.keys[40]) {
+		if(squid.y + squid.speedY < (gameArea.canvas.height - 20)) {squid.speedY = 1; } }
+	squid.newPos();
+	squid.update();
+}
+
+</script>
+
+</body>
+</html>
