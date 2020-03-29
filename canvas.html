@@ -68,7 +68,18 @@ canvas {
 
 var squid;
 var bgMusic;
-
+	
+function hideButtons() {
+	var x1 = document.getElementbyId("one");
+	if(x1.style.display === "inline-block") {x1.style.display = "none";}
+	var x2 = document.getElementbyId("two");
+	if(x2.style.display === "inline-block") {x2.style.display = "none";}
+	var x3 = document.getElementbyId("three");
+	if(x3.style.display === "inline-block") {x3.style.display = "none";}
+	var x4 = document.getElementbyId("four");
+	if(x4.style.display === "inline-block") {x4.style.display = "none";}
+}
+	
 function startHome() {
 	gameArea.start();
 //	squid = new piece(20, 20, "blue", 500, 450);
