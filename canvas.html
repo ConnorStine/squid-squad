@@ -48,21 +48,56 @@ canvas {
 </style>
 </head>
 <body onload="startHome()">
-<button class="button" style="vertical-align:bottom"><span>Mazes </span></button>
-<button class="button" style="vertical-align:middle"><span>Picture </span></button>
-<button class="button" style="vertical-align:middle"><span>Home </span></button>
+<button onclick="mazeScreen()"class="button" style="vertical-align:bottom"><span>Mazes </span></button>
+<button onclick="startPicture()"class="button" style="vertical-align:middle"><span>Picture </span></button>
+<button onclick="startHome()"class="button" style="vertical-align:middle"><span>Home </span></button>
+<div id="one">
+<button onclick="mazeOne();hideButtons();"class="button" style.display= "none" style="vertical-align:middle"><span>Maze 1 </span></button>
+</div>
+</div id="two">
+<button onclick="mazeTwo();hideButtons();"class="button" display= "none" style="vertical-align:middle"><span>Maze 2 </span></button>
+</div>
+</div id="three">
+<button onclick="mazeThree();hideButtons();"class="button" display= "none" style="vertical-align:middle"><span>Maze 3 </span></button>
+</div>
+<div id="four">
+<button onclick="mazeFour();hideButtons();"class="button" display= "none" style="vertical-align:middle"><span>Maze 4 </span></button>
+</div>
+
 <script>
 
 var squid;
-var bgMusic;
 
+function hideButtons() {
+	var x1 = document.getElementbyId("one");
+	if(x1.style.display === "inline-block") {x1.style.display = "none";}
+	var x2 = document.getElementbyId("two");
+	if(x2.style.display === "inline-block") {x2.style.display = "none";}
+	var x3 = document.getElementbyId("three");
+	if(x3.style.display === "inline-block") {x3.style.display = "none";}
+	var x4 = document.getElementbyId("four");
+	if(x4.style.display === "inline-block") {x4.style.display = "none";}
+}
 function startHome() {
 	gameArea.start();
-//	squid = new piece(20, 20, "blue", 500, 450);
-	squid = new component(50, 50, "squid-icon.png", 500, 450, "image");
-	bgMusic = new sound("bgm.mp3");
-	bgMusic.loop();
-	bgMusic.play();
+	squid = new piece(20, 20, "blue", 500, 450);
+}
+function mazeScreen() {
+	gameArea.start();
+	squid = new piece(20, 20, "red", 500, 450);
+	var x1 = document.getElementbyId("one");
+	if(x1.style.display === "none") { x1.style.display = "inline-block";}
+	var x2 = document.getElementbyId("two");
+	if(x2.style.display === "none") { x2.style.display = "inline-block";}
+	var x3 = document.getElementbyId("three");
+	if(x3.style.display === "none") { x3.style.display = "inline-block";}
+	var x4 = document.getElementbyId("four");
+	if(x4.style.display === "none") { x4.style.display = "inline-block";}
+}
+
+function startPicture() {
+	gameArea.start();
+	squid = new piece(20, 20, "green", 500, 450);
 }
 
 var gameArea = {
@@ -86,24 +121,6 @@ var gameArea = {
 	}
 }
 
-function sound(src) {
-	this.sound = document.createElement("audio");
-	this.sound.src = src;
-	this.sound.setAttribute("preload", "auto");
-	this.sound.setAttribute("controls", "none");
-	this.sound.style.display = "none";
-	document.body.appendChild(this.sound);
-	this.play = function(){
-		this.sound.play();
-	}
-	this.loop = function(){
-		this.sound.setAttribute("loop", "true");
-	}
-	this.stop = function(){
-		this.sound.pause();
-	}
-}
-
 function piece(width, height, color, x, y) {
 	this.width = width;
 	this.height = height;
@@ -114,38 +131,6 @@ function piece(width, height, color, x, y) {
 		ctx.fillStyle = color;
 		ctx.fillRect(this.x, this.y, this.width, this.height);
 	}
-	this.newPos = function() {
-		this.x += this.speedX;
-		this.y += this.speedY;
-	}
-}
-
-
-
-function component(width, height, color, x, y, type) {
-	this.type = type;
-	if (type == "image") {
-		this.image = new Image();
-		this.image.src = color;
-	}
-	this.width = width;
-	this.height = height;
-	this.x = x;
-	this.y = y;
-	
-	this.update = function() {
-		ctx = gameArea.context;
-		if (type == "image") {
-			ctx.drawImage(this.image,
-				this.x,
-				this.y,
-				this.width, this.height);
-		} else {
-			ctx.fillStyle = color;
-			ctx.fillRect(this.x, this.y, this.width, this.height);
-		}
-	}
-	
 	this.newPos = function() {
 		this.x += this.speedX;
 		this.y += this.speedY;
