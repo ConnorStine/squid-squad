@@ -13,3 +13,5 @@ Brenna Lusk - Art, Code, Mazes
 Hannah Parks - Logic, Code
 
 Connor Stine - Audio, Code, Art
+
+Kelsey Zhan - Mazes, Code
