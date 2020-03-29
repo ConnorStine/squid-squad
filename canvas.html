@@ -48,45 +48,17 @@ canvas {
 </style>
 </head>
 <body onload="startHome()">
-<button onclick="mazeScreen()"class="button" style="vertical-align:bottom"><span>Mazes </span></button>
-<button onclick="startPicture()"class="button" style="vertical-align:middle"><span>Picture </span></button>
-<button onclcik="startHome()"class="button" style="vertical-align:middle"><span>Home </span></button>
+<button class="button" style="vertical-align:bottom"><span>Mazes </span></button>
+<button class="button" style="vertical-align:middle"><span>Picture </span></button>
+<button class="button" style="vertical-align:middle"><span>Home </span></button>
 <script>
 
 var squid;
 
 function startHome() {
 	gameArea.start();
-	squid = new piece(20, 20, "blue", 500, 450);
-}
-function mazeScreen() {
-	gameArea.start();
-	squid = new piece(20, 20, "red", 500, 450);
-	var x1 = document.createElement('button');
-	var t1 = document.createTextNode("Maze 1");
-	x1.appendChild(t1);
-	x1.onclick = "mazeOne()";
-	document.body.appendChild(x1);
-	var x2 = document.createElement('button');
-	var t2 = document.createTextNode("Maze 2");
-	x2.appendChild(t2);
-	x2.onclick = "mazeTwo()";
-	document.body.appendChild(x2);
-	var x3 = document.createElement('button');
-	var t3 = document.createTextNode("Maze 3");
-	x3.appendChild(t3);
-	x3.onclick = "mazeThree()";
-	document.body.appendChild(x3);
-	var x4 = document.createElement('button');
-	var t4 = document.createTextNode("Maze 4");
-	x4.appendChild(t4);
-	x4.onclick = "mazeFour()";
-	document.body.appendChild(x4);
-}
-
-function startPicture() {
-	gameArea.start();
-	squid = new piece(20, 20, "green", 500, 450);
+//	squid = new piece(20, 20, "blue", 500, 450);
+	squid = new component(50, 50, "squid-icon.png", 500, 450, "image");
 }
 
 var gameArea = {
@@ -120,6 +92,38 @@ function piece(width, height, color, x, y) {
 		ctx.fillStyle = color;
 		ctx.fillRect(this.x, this.y, this.width, this.height);
 	}
+	this.newPos = function() {
+		this.x += this.speedX;
+		this.y += this.speedY;
+	}
+}
+
+
+
+function component(width, height, color, x, y, type) {
+	this.type = type;
+	if (type == "image") {
+		this.image = new Image();
+		this.image.src = color;
+	}
+	this.width = width;
+	this.height = height;
+	this.x = x;
+	this.y = y;
+	
+	this.update = function() {
+		ctx = gameArea.context;
+		if (type == "image") {
+			ctx.drawImage(this.image,
+				this.x,
+				this.y,
+				this.width, this.height);
+		} else {
+			ctx.fillStyle = color;
+			ctx.fillRect(this.x, this.y, this.width, this.height);
+		}
+	}
+	
 	this.newPos = function() {
 		this.x += this.speedX;
 		this.y += this.speedY;
