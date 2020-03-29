@@ -88,7 +88,7 @@ function startUp(){
 	bgMusic.stop();
 	bgMusic.loop();
 	bgMusic.play();
-	squid = new component(50, 50, "squid-icon.png", 500, 450, "image");
+	squid = new component(40, 40, "squid-icon-up.png", 500, 450, "image");
 }
 
 function startHome() {
@@ -96,7 +96,7 @@ function startHome() {
 	bgMusic.stop();
 	bgMusic.loop();
 	bgMusic.play();
-	squid = new component(50, 50, "squid-icon.png", 500, 450, "image");
+	squid = new component(40, 40, "squid-icon-up.png", 500, 450, "image");
 }
 
 function sound(src) {
@@ -119,7 +119,7 @@ function sound(src) {
 
 function mazeScreen() {
 	//gameArea.start();
-	squid = new component(50, 50, "squid-icon.png", 500, 450, "image");
+	squid = new component(40, 40, "squid-icon-up.png", 500, 450, "image");
 	//squid = new piece(20, 20, "red", 500, 450);
 	var x1 = document.getElementById("one");
 	x1.classList.toggle("hidden");
@@ -133,7 +133,7 @@ function mazeScreen() {
 
 function startPicture() {
 	//gameArea.start();
-	squid = new component(50, 50, "squid-icon.png", 500, 450, "image");
+	squid = new component(40, 40, "squid-icon-up.png", 500, 450, "image");
 	//squid = new piece(20, 20, "green", 500, 450);
 }
 
@@ -209,13 +209,13 @@ function updateGame() {
 	squid.speedX = 0;
 	squid.speedY = 0;
 	if(gameArea.keys && gameArea.keys[37]) {
-		if(squid.x - squid.speedX > 0) {squid.speedX = -2; } }
+		if(squid.x - squid.speedX > 0) {squid.speedX = -2; squid.image.src = "squid-icon-left.png"} }
 	if(gameArea.keys && gameArea.keys[39]) {
-		if(squid.x + squid.speedX < (gameArea.canvas.width - 20)) {squid.speedX = 2; } }
+		if(squid.x + squid.speedX < (gameArea.canvas.width - 40)) {squid.speedX = 2; squid.image.src = "squid-icon-right.png"} }
 	if(gameArea.keys && gameArea.keys[38]) {
-		if(squid.y - squid.speedY > 0) {squid.speedY = -2; } }
+		if(squid.y - squid.speedY > 0) {squid.speedY = -2; squid.image.src = "squid-icon-up.png"} }
 	if(gameArea.keys && gameArea.keys[40]) {
-		if(squid.y + squid.speedY < (gameArea.canvas.height - 20)) {squid.speedY = 2; } }
+		if(squid.y + squid.speedY < (gameArea.canvas.height - 40)) {squid.speedY = 2; squid.image.src = "squid-icon-down.png"} }
 	squid.newPos();
 	squid.update();
 }
