@@ -1,6 +1,9 @@
 # Squid Squad
 This is a web-based game that follows a squid whose only goal is to paint. Unfortunately, he only has one color of ink! Help him find more colors to finish off his beautiful painting.
 
+# Try it Out!
+www.squidsquad.tech (OPEN IN MIRCROSOFT EDGE)
+
 # About the Code
 The program runs through HTML utilizing its eventlistener feature to allow for interaction between the user and the web application. The different buttons change the view and will appear and disappear based on user choices. The audio and visual components that require files reference them in the same directory as the .html file.
 
