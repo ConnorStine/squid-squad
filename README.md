@@ -3,6 +3,9 @@ This is a web-based game that follows a squid whose only goal is to paint. Unfor
 
 # Authors
 Brenna Lusk - Art, Code
+
 Hannah Parks - Logic, Code
+
 Kelsey Zhan - Mazes, Code
+
 Connor Stine - Audio, Code
