@@ -9,8 +9,8 @@ body {
 canvas {
 	border: 5px solid #151515;
 	background-color: rgba(9, 19, 73, 0.6);
-	background-image: url("Maze.png");
 	background-repeat: no-repeat;
+	background-position: center;
 }
 .button {
 	background-color: #58D3F7;
@@ -74,8 +74,47 @@ var squid;
 var bgMusic = new sound("bgm.mp3");
 var div = document.getElementById("test");
 var style = window.getComputedStyle(div);
+var context;
 
-function mazeOne(){} function mazeTwo(){} function mazeThree(){} function mazeFour(){}
+function mazeOne(){
+	var style = document.createElement('style');
+	style.innerHTML = `
+	canvas {
+		background-image: url("Maze.png");
+	}
+	`;
+	document.head.appendChild(style);
+} 
+
+function mazeTwo(){
+	var style = document.createElement('style');
+	style.innerHTML = `
+	canvas {
+		background-image: url("Maze2.png");
+	}
+	`;
+	document.head.appendChild(style);
+} 
+
+function mazeThree(){
+	var style = document.createElement('style');
+	style.innerHTML = `
+	canvas {
+		background-image: url("Maze3.png");
+	}
+	`;
+	document.head.appendChild(style);
+} 
+
+function mazeFour(){
+	var style = document.createElement('style');
+	style.innerHTML = `
+	canvas {
+		background-image: url("Maze4.png");
+	}
+	`;
+	document.head.appendChild(style);
+}
 
 function hideButtons() {
 	var x1 = document.getElementById("one");
@@ -158,6 +197,7 @@ var gameArea = {
 		window.addEventListener('keyup', function (e) {
 			gameArea.keys[e.keyCode] = (e.type == "keydown");
 		})
+		context = this.canvas.getContext("2d");
 	},
 	clear : function() {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
