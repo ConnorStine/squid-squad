@@ -180,6 +180,13 @@ function mazeScreen() {
 	x3.classList.toggle("hidden");
 	var x4 = document.getElementById("four");
 	x4.classList.toggle("hidden");
+	var style = document.createElement('style');
+	style.innerHTML = `
+	canvas {
+		background-image: none;
+	}
+	`;
+	document.head.appendChild(style);
 }
 
 function startPicture() {
