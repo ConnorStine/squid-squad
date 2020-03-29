@@ -52,31 +52,34 @@ canvas {
 <button onclick="startPicture()"class="button" style="vertical-align:middle"><span>Picture </span></button>
 <button onclick="startHome()"class="button" style="vertical-align:middle"><span>Home </span></button>
 <div id="one">
-<button onclick="mazeOne();hideButtons();"class="button" style.display= "none" style="vertical-align:middle"><span>Maze 1 </span></button>
+<button onclick="mazeOne();hideButtons();"class="button" style="vertical-align:middle; display:inline-block;" ><span>Maze 1 </span></button>
 </div>
-</div id="two">
-<button onclick="mazeTwo();hideButtons();"class="button" display= "none" style="vertical-align:middle"><span>Maze 2 </span></button>
+<div id="two">
+<button onclick="mazeTwo();hideButtons();"class="button" style="vertical-align:middle; display:inline-block" ><span>Maze 2 </span></button>
 </div>
-</div id="three">
-<button onclick="mazeThree();hideButtons();"class="button" display= "none" style="vertical-align:middle"><span>Maze 3 </span></button>
+<div id="three">
+<button onclick="mazeThree();hideButtons();"class="button" style="vertical-align:middle; display:inline-block" ><span>Maze 3 </span></button>
 </div>
 <div id="four">
-<button onclick="mazeFour();hideButtons();"class="button" display= "none" style="vertical-align:middle"><span>Maze 4 </span></button>
+<button onclick="mazeFour();hideButtons();"class="button" style="vertical-align:middle; display:inline-block" ><span>Maze 4 </span></button>
 </div>
+<style> .hidden { display:none; }</style>
 
 <script>
 
 var squid;
 
+function mazeOne(){} function mazeTwo(){} function mazeThree(){} function mazeFour(){}
+
 function hideButtons() {
-	var x1 = document.getElementbyId("one");
-	if(x1.style.display === "inline-block") {x1.style.display = "none";}
-	var x2 = document.getElementbyId("two");
-	if(x2.style.display === "inline-block") {x2.style.display = "none";}
-	var x3 = document.getElementbyId("three");
-	if(x3.style.display === "inline-block") {x3.style.display = "none";}
-	var x4 = document.getElementbyId("four");
-	if(x4.style.display === "inline-block") {x4.style.display = "none";}
+	var x1 = document.getElementById("one");
+	x1.classList.toggle("hidden");
+	var x2 = document.getElementById("two");
+	x2.classList.toggle("hidden");
+	var x3 = document.getElementById("three");
+	x3.classList.toggle("hidden");
+	var x4 = document.getElementById("four");
+	x4.classList.toggle("hidden");
 }
 function startHome() {
 	gameArea.start();
@@ -85,14 +88,14 @@ function startHome() {
 function mazeScreen() {
 	gameArea.start();
 	squid = new piece(20, 20, "red", 500, 450);
-	var x1 = document.getElementbyId("one");
-	if(x1.style.display === "none") { x1.style.display = "inline-block";}
-	var x2 = document.getElementbyId("two");
-	if(x2.style.display === "none") { x2.style.display = "inline-block";}
-	var x3 = document.getElementbyId("three");
-	if(x3.style.display === "none") { x3.style.display = "inline-block";}
-	var x4 = document.getElementbyId("four");
-	if(x4.style.display === "none") { x4.style.display = "inline-block";}
+	var x1 = document.getElementById("one");
+	x1.classList.toggle("hidden");
+	var x2 = document.getElementById("two");
+	x2.classList.toggle("hidden");
+	var x3 = document.getElementById("three");
+	x3.classList.toggle("hidden");
+	var x4 = document.getElementById("four");
+	x4.classList.toggle("hidden");
 }
 
 function startPicture() {
