@@ -9,6 +9,8 @@ body {
 canvas {
 	border: 5px solid #151515;
 	background-color: rgba(9, 19, 73, 0.6);
+	background-image: url("Maze.png");
+	background-repeat: no-repeat;
 }
 .button {
 	background-color: #58D3F7;
@@ -47,7 +49,8 @@ canvas {
 }
 </style>
 </head>
-<body onload="startUp()">
+<body onload="startUp()" id="test">
+<img id="i1" src="" />
 <button onclick="mazeScreen()" class="button" style="vertical-align:bottom"><span>Mazes </span></button>
 <button onclick="startPicture()" class="button" style="vertical-align:middle"><span>Picture </span></button>
 <button onclick="startHome()" class="button" style="vertical-align:middle"><span>Home </span></button>
@@ -69,6 +72,8 @@ canvas {
 
 var squid;
 var bgMusic = new sound("bgm.mp3");
+var div = document.getElementById("test");
+var style = window.getComputedStyle(div);
 
 function mazeOne(){} function mazeTwo(){} function mazeThree(){} function mazeFour(){}
 
@@ -140,6 +145,7 @@ function startPicture() {
 var gameArea = {
 	canvas : document.createElement("canvas"),
 	start : function() {
+		this.canvas.id = "yay";
 		this.canvas.width = 1000;
 		this.canvas.height = 600;
 		this.context = this.canvas.getContext("2d");
@@ -205,11 +211,29 @@ function component(width, height, color, x, y, type) {
 }
 
 function updateGame() {
+	var path = style.getPropertyValue('background-image');
+    path = path.substring(4, path.length-1);
+	var canvas = document.getElementById("yay");
+	var img = document.getElementById("i1");
+    img.src = path;
+    canvas.getContext('2d').drawImage(img, 0, 0, img.width, img.height);
+
+    var data = canvas.getContext('2d').getImageData(squid.x, squid.y, 1, 1).data;
+
+            //var values = document.getElementById("values");
 	gameArea.clear();
 	squid.speedX = 0;
 	squid.speedY = 0;
 	if(gameArea.keys && gameArea.keys[37]) {
-		if(squid.x - squid.speedX > 0) {squid.speedX = -2; squid.image.src = "squid-icon-left.png"} }
+		if(squid.x - squid.speedX > 0) {
+			for (var i = 0; i < 4 * 15; i += 4) {
+                if (!(data[i] === 0 && data[i + 1] === 0 && data[i + 2] === 0)) { //not black
+                    squid.speedX = -2; squid.image.src = "squid-icon-left.png"
+                    break;
+                } 
+			}
+		} 
+	}
 	if(gameArea.keys && gameArea.keys[39]) {
 		if(squid.x + squid.speedX < (gameArea.canvas.width - 40)) {squid.speedX = 2; squid.image.src = "squid-icon-right.png"} }
 	if(gameArea.keys && gameArea.keys[38]) {
