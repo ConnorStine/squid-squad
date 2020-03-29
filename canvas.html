@@ -48,9 +48,22 @@ canvas {
 </style>
 </head>
 <body onload="startHome()">
-<button class="button" style="vertical-align:bottom"><span>Mazes </span></button>
-<button class="button" style="vertical-align:middle"><span>Picture </span></button>
-<button class="button" style="vertical-align:middle"><span>Home </span></button>
+<button onclick="mazeScreen()"class="button" style="vertical-align:bottom"><span>Mazes </span></button>
+<button onclick="startPicture()"class="button" style="vertical-align:middle"><span>Picture </span></button>
+<button onclick="startHome()"class="button" style="vertical-align:middle"><span>Home </span></button>
+<div id="one">
+<button onclick="mazeOne();hideButtons();"class="button" style.display= "none" style="vertical-align:middle"><span>Maze 1 </span></button>
+</div>
+</div id="two">
+<button onclick="mazeTwo();hideButtons();"class="button" display= "none" style="vertical-align:middle"><span>Maze 2 </span></button>
+</div>
+</div id="three">
+<button onclick="mazeThree();hideButtons();"class="button" display= "none" style="vertical-align:middle"><span>Maze 3 </span></button>
+</div>
+<div id="four">
+<button onclick="mazeFour();hideButtons();"class="button" display= "none" style="vertical-align:middle"><span>Maze 4 </span></button>
+</div>
+
 <script>
 
 var squid;
