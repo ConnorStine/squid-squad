@@ -182,11 +182,11 @@ function updateGame() {
 	if(gameArea.keys && gameArea.keys[37]) {
 		if(squid.x - squid.speedX > 0) {squid.speedX = -1; } }
 	if(gameArea.keys && gameArea.keys[39]) {
-		if(squid.x + squid.speedX < (gameArea.canvas.width - 20)) {squid.speedX = 1; } }
+		if(squid.x + squid.speedX < (gameArea.canvas.width - 35)) {squid.speedX = 1; } }
 	if(gameArea.keys && gameArea.keys[38]) {
 		if(squid.y - squid.speedY > 0) {squid.speedY = -1; } }
 	if(gameArea.keys && gameArea.keys[40]) {
-		if(squid.y + squid.speedY < (gameArea.canvas.height - 20)) {squid.speedY = 1; } }
+		if(squid.y + squid.speedY < (gameArea.canvas.height - 35)) {squid.speedY = 1; } }
 	squid.newPos();
 	squid.update();
 }
