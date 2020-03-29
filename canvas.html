@@ -89,6 +89,24 @@ function startHome() {
 	bgMusic.play();
 }
 
+function mazeScreen() {
+	gameArea.start();
+	squid = new piece(20, 20, "red", 500, 450);
+	var x1 = document.getElementbyId("one");
+	if(x1.style.display === "none") { x1.style.display = "inline-block";}
+	var x2 = document.getElementbyId("two");
+	if(x2.style.display === "none") { x2.style.display = "inline-block";}
+	var x3 = document.getElementbyId("three");
+	if(x3.style.display === "none") { x3.style.display = "inline-block";}
+	var x4 = document.getElementbyId("four");
+	if(x4.style.display === "none") { x4.style.display = "inline-block";}
+}
+
+function startPicture() {
+	gameArea.start();
+	squid = new piece(20, 20, "green", 500, 450);
+}
+
 var gameArea = {
 	canvas : document.createElement("canvas"),
 	start : function() {
