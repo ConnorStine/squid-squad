@@ -8,10 +8,8 @@ The program runs through HTML utilizing its eventlistener feature to allow for i
 Due to certain browsers restricting the autoplay feature for different medias in an attempt to limit bandwidth usage, for the best experience please use Microsoft Edge. To ensure the web application functions correctly, make sure all files are in the same directory.
 
 # Authors
-Brenna Lusk - Art, Code
+Brenna Lusk - Art, Code, Mazes
 
 Hannah Parks - Logic, Code
 
-Kelsey Zhan - Mazes, Code
-
-Connor Stine - Audio, Code
+Connor Stine - Audio, Code, Art
