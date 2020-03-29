@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="gameArea" content="width=device-width, initial-scale=1.0"/>
+<style>
+body {
+  	background-image: url("OceanBG2.png");
+}
+canvas {
+	border: 5px solid #151515;
+	background-color: rgba(9, 19, 73, 0.6);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.button {
+	background-color: #58D3F7;
+	border: none;
+	border-radius: 4px;
+	color: #151515;
+	padding: 8px;
+	text-align: center;
+	display: inline-block;
+	font-size: 16px;
+	width: 90px;
+	transition: all 0.5s;
+	margin: 3px;
+	cursor: pointer;
+}
+.button span {
+	cursor: pointer;
+	display: inline-block;
+	position: relative;
+	transition: 0.5s;
+}
+.button span:after {
+	content: '\00bb';
+	position: absolute;
+	opacity: 0;
+	top: 0;
+	right: -20px;
+	transition: 0.5s;
+}
+.button:hover span {
+	padding-right: 25px;
+}
+.button:hover span:after {
+	opacity: 1;
+	right: 0;
+}
+</style>
+</head>
+<body onload="startUp()" id="test">
+<img id="i1" src="" />
+<button onclick="mazeScreen()" class="button" style="vertical-align:bottom"><span>Mazes </span></button>
+<button onclick="startPicture()" class="button" style="vertical-align:middle"><span>Picture </span></button>
+<button onclick="startHome()" class="button" style="vertical-align:middle"><span>Home </span></button>
+<div id="one">
+<button onclick="mazeOne();hideButtons();"class="button" style="vertical-align:middle; display:inline-block;" ><span>Maze 1 </span></button>
+</div>
+<div id="two">
+<button onclick="mazeTwo();hideButtons();"class="button" style="vertical-align:middle; display:inline-block" ><span>Maze 2 </span></button>
+</div>
+<div id="three">
+<button onclick="mazeThree();hideButtons();"class="button" style="vertical-align:middle; display:inline-block" ><span>Maze 3 </span></button>
+</div>
+<div id="four">
+<button onclick="mazeFour();hideButtons();"class="button" style="vertical-align:middle; display:inline-block" ><span>Maze 4 </span></button>
+</div>
+<style> .hidden { display:none; }</style>
+
+<script>
+
+var squid, rbuck, ybuck, gbuck, bbuck;
+var rrect, yrect, grect, bbg;
+var bgMusic = new sound("bgm.mp3");
+var collect = new sound("collect.mp3");
+var place = new sound("place.mp3");
+var complete = new sound("complete.mp3");
+var div = document.getElementById("test");
+var style = window.getComputedStyle(div);
+var rGot = false;
+var yGot = false;
+var gGot = false;
+var bGot = false;
+completed = false;
+var bucketKey = 0;
+var colorCnt = [0,0,0,0];
+var context;
+
+function mazeOne(){
+	if(!rGot){
+		rbuck = new component(50,50, "redbucket.png", 920, 80, "image");
+		rbuck.update();
+		bucketKey = 1;
+	}
+	//change maze
+	var style = document.createElement('style');
+	style.innerHTML = `
+	canvas {
+		background-image: url("Maze.png");
+	}
+	`;
+	document.head.appendChild(style);
+	squid = new component(40, 40, "squid-icon-up.png", 125, 525, "image");
+} 
+
+function mazeTwo(){
+	if(!yGot){
+		ybuck = new component(50,50, "yellowbucket.png", 920, 400, "image");
+		ybuck.update();
+		bucketKey = 2;
+	}
+	//change maze
+	var style = document.createElement('style');
+	style.innerHTML = `
+	canvas {
+		background-image: url("Maze2.png");
+	}
+	`;
+	document.head.appendChild(style);
+	squid = new component(40, 40, "squid-icon-left.png", 880, 220, "image");
+} 
+
+function mazeThree(){
+	if(!gGot){
+		gbuck = new component(50,50, "greenbucket.png", 155, 550, "image");
+		gbuck.update();
+		bucketKey = 3;
+	}
+	//change maze
+	var style = document.createElement('style');
+	style.innerHTML = `
+	canvas {
+		background-image: url("Maze3.png");
+	}
+	`;
+	document.head.appendChild(style);
+	squid = new component(40, 40, "squid-icon-down.png", 160, 35, "image");
+} 
+
+function mazeFour(){
+	if(!bGot){
+		bbuck = new component(50, 50, "bluebucket.png", 920, 365, "image");
+		bbuck.update();
+		bucketKey = 4;
+	}
+	//change maze
+	var style = document.createElement('style');
+	style.innerHTML = `
+	canvas {
+		background-image: url("Maze4.png");
+	}
+	`;
+	document.head.appendChild(style);
+	squid = new component(40, 40, "squid-icon-down.png", 770, 35, "image");
+}
+
+function hideButtons() {
+	var x1 = document.getElementById("one");
+	x1.classList.toggle("hidden");
+	var x2 = document.getElementById("two");
+	x2.classList.toggle("hidden");
+	var x3 = document.getElementById("three");
+	x3.classList.toggle("hidden");
+	var x4 = document.getElementById("four");
+	x4.classList.toggle("hidden");
+}
+
+function startUp(){
+	gameArea.start();
+	bgMusic.stop();
+	bgMusic.loop();
+	bgMusic.play();
+	squid = new component(40, 40, "squid-icon-up.png", 500, 450, "image");
+}
+
+function startHome() {
+	//gameArea.start();
+	bucketKey = 0;
+	bgMusic.stop();
+	bgMusic.loop();
+	bgMusic.play();
+	squid = new component(40, 40, "squid-icon-up.png", 500, 450, "image");
+	var style = document.createElement('style');
+	style.innerHTML = `
+	canvas {
+		background-image: none;
+	}
+	`;
+	document.head.appendChild(style);
+}
+
+function sound(src) {
+	this.sound = document.createElement("audio");
+	this.sound.src = src;
+	this.sound.setAttribute("preload", "auto");
+	this.sound.setAttribute("controls", "none");
+	this.sound.style.display = "none";
+	document.body.appendChild(this.sound);
+	this.play = function(){
+		this.sound.play();
+	}
+	this.loop = function(){
+		this.sound.setAttribute("loop", "true");
+	}
+	this.stop = function(){
+		this.sound.pause();
+	}
+}
+
+function mazeScreen() {
+	//gameArea.start();
+	bucketKey = 0;
+	squid = new component(40, 40, "squid-icon-up.png", 500, 450, "image");
+	//squid = new piece(20, 20, "red", 500, 450);
+	var x1 = document.getElementById("one");
+	x1.classList.toggle("hidden");
+	var x2 = document.getElementById("two");
+	x2.classList.toggle("hidden");
+	var x3 = document.getElementById("three");
+	x3.classList.toggle("hidden");
+	var x4 = document.getElementById("four");
+	x4.classList.toggle("hidden");
+	var style = document.createElement('style');
+	style.innerHTML = `
+	canvas {
+		background-image: none;
+	}
+	`;
+	document.head.appendChild(style);
+}
+
+function startPicture() {
+	//gameArea.start();
+	bucketKey = 5;
+	if(colorCnt[0] == 1){
+		bbg = new component(400, 500, "rgba(144, 202, 249, 1)", 300, 50);
+	}
+	else{
+		bbg = new component(400, 500, "rgba(200, 200, 200, 1)", 300, 50);
+	}
+	if(colorCnt[1] == 1){
+		rrect = new component(325, 100, "rgba(237, 67, 55, 1)", 320, 70);
+	}
+	else{
+		rrect = new component(325, 100, "rgba(230, 230, 230, 1)", 320, 70);
+	}
+	if(colorCnt[2] == 1){
+		grect = new component(325, 100, "rgba(144, 238, 144, 1)", 355, 430);
+	}
+	else{
+		grect = new component(325, 100, "rgba(230, 230, 230, 1)", 355, 430);
+	}
+	if(colorCnt[3] == 1){
+		yrect = new component(200, 200, "rgba(255, 255, 153, 1)", 400, 200);
+	}
+	else{
+		yrect = new component(200, 200, "rgba(230, 230, 230, 1)", 400, 200);
+	}
+	squid = new component(40, 40, "squid-icon-up.png", 800, 300, "image");
+	//squid = new piece(20, 20, "green", 500, 450);
+	var style = document.createElement('style');
+	style.innerHTML = `
+	canvas {
+		background-image: none;
+	}
+	`;
+	document.head.appendChild(style);
+	
+}
+
+var gameArea = {
+	canvas : document.createElement("canvas"),
+	start : function() {
+		this.canvas.id = "yay";
+		this.canvas.width = 1000;
+		this.canvas.height = 600;
+		this.context = this.canvas.getContext("2d");
+		document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+		this.interval = setInterval(updateGame, 20);
+		window.addEventListener('keydown', function (e) {
+			gameArea.keys = (gameArea.keys || []);
+			gameArea.keys[e.keyCode] = (e.type == "keydown");
+		})
+		window.addEventListener('keyup', function (e) {
+			gameArea.keys[e.keyCode] = (e.type == "keydown");
+		})
+		context = this.canvas.getContext("2d");
+	},
+	clear : function() {
+		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	}
+}
+
+//function piece(width, height, color, x, y) {
+//	this.width = width;
+//	this.height = height;
+//	this.x = x;
+//	this.y = y;
+//	this.update = function() {
+//		ctx = gameArea.context;
+//		ctx.fillStyle = color;
+//		ctx.fillRect(this.x, this.y, this.width, this.height);
+//	}
+//	this.newPos = function() {
+//		this.x += this.speedX;
+//		this.y += this.speedY;
+//	}
+//}
+
+function component(width, height, color, x, y, type) {
+	this.type = type;
+	if (type == "image") {
+		this.image = new Image();
+		this.image.src = color;
+	}
+	this.width = width;
+	this.height = height;
+	this.x = x;
+	this.y = y;
+	
+	this.update = function() {
+		ctx = gameArea.context;
+		if (type == "image") {
+			ctx.drawImage(this.image,
+				this.x,
+				this.y,
+				this.width, this.height);
+		} 
+		else {
+			ctx.fillStyle = color;
+			ctx.fillRect(this.x, this.y, this.width, this.height);
+		}
+	}
+	
+	this.newPos = function() {
+		this.x += this.speedX;
+		this.y += this.speedY;
+		switch(bucketKey){
+			case 0:
+				break;
+			case 1:
+				if(this.collidingWith(rbuck)){
+					rGot = true;
+					bucketKey = 0;
+					collect.play();
+				}
+				break;
+			case 2:
+				if(this.collidingWith(ybuck)){
+					yGot = true;
+					bucketKey = 0;
+					collect.play();
+				}
+				break;
+			case 3:
+				if(this.collidingWith(gbuck)){
+					gGot = true;
+					bucketKey = 0;
+					collect.play();
+				}
+				break;
+			case 4:
+				if(this.collidingWith(bbuck)){
+					bGot = true;
+					bucketKey = 0;
+					collect.play();
+				}
+				break;
+			case 5:
+				if(this.placingOn(bbg) && bGot == true && colorCnt[0] != 1){
+					colorCnt[0] = 1;
+					place.play();
+					bbg = new component(400, 500, "rgba(144, 202, 249, 1)", 300, 50);
+				}
+				else if(this.placingOn(rrect) && rGot == true && colorCnt[1] != 1){
+					colorCnt[1] = 1;
+					place.play();
+					rrect = new component(325, 100, "rgba(237, 67, 55, 1)", 320, 70);
+				}
+				else if(this.placingOn(grect) && gGot == true && colorCnt[2] != 1){
+					colorCnt[2] = 1;
+					place.play();
+					grect = new component(325, 100, "rgba(144, 238, 144, 1)", 355, 430);
+				}
+				else if(this.placingOn(yrect) && yGot == true && colorCnt[3] != 1){
+					colorCnt[3] = 1;
+					place.play();
+					yrect = new component(200, 200, "rgba(255, 255, 153, 1)", 400, 200);
+				}
+				if(colorCnt[0] == 1 && colorCnt[1] == 1 &&
+						colorCnt[2] == 1 && colorCnt[3] == 1 &&
+							!completed){
+					completed = true;
+					setTimeout(() => { complete.play(); }, 2000);
+				}
+				break;
+			default:
+		}
+	}
+	
+	this.collidingWith = function(object){
+		var sLeft = this.x;
+		var sRight = this.x + 40;
+		var sTop = this.y;
+		var sBot = this.y + 40;
+		var bLeft = object.x + 10;
+		var bRight = object.x + 30;
+		var bTop = object.y + 10;
+		var bBot = object.y + 30;
+		if ((sBot < bTop) ||
+				(sTop > bBot) ||
+				(sRight < bLeft) ||
+				(sLeft > bRight)) {
+			return false;
+		}
+		return true;
+	}
+	
+	this.placingOn = function(object){
+		var sLeft = this.x;
+		var sRight = this.x + 40;
+		var sTop = this.y;
+		var sBot = this.y + 40;
+		var oLeft, oRight, oTop, oBot;
+		switch(object){
+			case bbg:
+				oRight = object.x + 370;
+				if(sLeft > oRight){
+					return false;
+				}
+				break;
+			case rrect:
+			case grect:
+				oRight = object.x + 315;
+				oLeft = object.x + 10;
+				oTop = object.y + 10;
+				oBot = object.y + 90;
+				if ((sBot < oTop) ||
+						(sTop > oBot) ||
+						(sRight < oLeft) ||
+						(sLeft > oRight)) {
+					return false;
+				}
+				break;
+			case yrect:
+				oRight = object.x + 190;
+				oLeft = object.x + 10;
+				oTop = object.y + 10;
+				oBot = object.y + 190;
+				if ((sBot < oTop) ||
+						(sTop > oBot) ||
+						(sRight < oLeft) ||
+						(sLeft > oRight)) {
+					return false;
+				}
+				break;
+		}
+		return true;
+	}
+}
+
+function updateGame() {
+	var path = style.getPropertyValue('background-image');
+    path = path.substring(4, path.length-1);
+	var canvas = document.getElementById("yay");
+	var img = document.getElementById("i1");
+    img.src = path;
+    canvas.getContext('2d').drawImage(img, 0, 0, img.width, img.height);
+
+    var data = canvas.getContext('2d').getImageData(squid.x, squid.y, 1, 1).data;
+
+    //var values = document.getElementById("values");
+	
+	gameArea.clear();
+	squid.speedX = 0;
+	squid.speedY = 0;
+	if(gameArea.keys && gameArea.keys[37]) {
+		if(squid.y - squid.speedY > 0) {squid.speedX = -2; squid.image.src = "squid-icon-left.png"} }
+	if(gameArea.keys && gameArea.keys[39]) {
+		if(squid.x + squid.speedX < (gameArea.canvas.width - 40)) {squid.speedX = 2; squid.image.src = "squid-icon-right.png"} }
+	if(gameArea.keys && gameArea.keys[38]) {
+		if(squid.y - squid.speedY > 0) {squid.speedY = -2; squid.image.src = "squid-icon-up.png"} }
+	if(gameArea.keys && gameArea.keys[40]) {
+		if(squid.y + squid.speedY < (gameArea.canvas.height - 40)) {squid.speedY = 2; squid.image.src = "squid-icon-down.png"} }
+	
+	switch(bucketKey){
+			case 0:
+				break;
+			case 1:
+				rbuck.update();
+				break;
+			case 2:
+				ybuck.update();
+				break;
+			case 3:
+				gbuck.update();
+				break;
+			case 4:
+				bbuck.update();
+				break;
+			case 5:
+				bbg.update();
+				rrect.update();
+				yrect.update();
+				grect.update();
+				break;
+			default:
+	}
+	squid.newPos();
+	squid.update();
+}
+
+</script>
+
+</body>
+</html>
